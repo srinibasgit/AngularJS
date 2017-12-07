@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript">
+	function Emp() {
+		this.empno = 1;
+		this.ename = "AAA";
+		this.salary = 100;
+	}
+	var mymodvar = angular.module("mymod", []);
+	mymodvar.controller("mycontroller", function($scope) {
+		$scope.emp = new Emp();
+		$scope.sortfield = "empno";
+		$scope.sortorder = true;
+		$scope.emparr = [ {
+			empno : 1,
+			ename : "Vaishali",
+			salary : 100
+		}, {
+			empno : 2,
+			ename : "Simran",
+			salary : 200
+		}, {
+			empno : 3,
+			ename : "Anand",
+			salary : 3400
+		}, {
+			empno : 4,
+			ename : "Natasha",
+			salary : 1400
+		}, {
+			empno : 101,
+			ename : "Saloni",
+			salary : 1100
+		}, {
+			empno : 50,
+			ename : "Abac",
+			salary : 2200
+		}, {
+			empno : 11,
+			ename : "Fred",
+			salary : 3400
+		}, {
+			empno : 44,
+			ename : "Gorge",
+			salary : 4400
+		} ];
+		$scope.addEmp = function() {
+			$scope.emparr.push($scope.emp);
+			$scope.emp = new Emp();
+		}
+		$scope.deleteEmp = function(empno) {
+			for (var i = 0; i < $scope.emparr.length; i++) {
+				if ($scope.emparr[i].empno == empno) {
+					$scope.emparr.splice(i, 1);
+					break;
+				}
+			}
+
+		}
+
+	});
+</script>
+</head>
+<body ng-app="mymod">
+	<div ng-controller="mycontroller">
+		EmpNumber : <input type="text" ng-model="emp.empno"><br />
+		Name of Employee : <input type="text" ng-model="emp.ename"><br />
+		Salary : <input type="number" ng-model="emp.salary"><br /> <input
+			type="button" value="Add" ng-click="addEmp()" /> <br />
+		<table border="1">
+			<thead>
+				<tr>
+					<td><a href="" ng-click="sortfield='empno';sortorder=!sortorder">EmpNumber</a></td>
+					<td><a href="" ng-click="sortfield='ename';sortorder=!sortorder">Ename</a></td>
+					<td><a href="" ng-click="sortfield='salary';sortorder=!sortorder">Salary</a></td>
+				</tr>
+			</thead>
+			<tr
+				ng-repeat="e in emparr   | orderBy:sortfield: sortorder track by e.empno ">
+
+				<td>{{e.empno}}</td>
+				<td>{{e.ename}}</td>
+				<td>{{e.salary}}</td>
+				<td><input type="button" value="Delete {{e.empno}} "
+					ng-click=deleteEmp(e.empno) /></td>
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+</html>
